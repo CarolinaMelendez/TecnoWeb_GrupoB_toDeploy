@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Logic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProductsInventory.Controllers
@@ -34,7 +35,16 @@ namespace ProductsInventory.Controllers
         [HttpDelete]
         public IActionResult DeleteProduct(Product product)
         {
-            return Ok();
+            Product ProductDeleted = _productManager.DeleteProduct(product);
+
+            if (ProductDeleted != null)
+            {
+                return Ok(ProductDeleted);
+            }
+            else
+            {
+                return BadRequest("El Productp no ha sido encontrado");
+            }
         }
     }
 }

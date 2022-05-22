@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Logic
 {
-    internal class ProductManager : IProductManager
+    public class ProductManager : IProductManager
     {
         public List<Product> Products { get; set; }
 

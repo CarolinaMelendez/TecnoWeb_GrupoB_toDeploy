@@ -8,6 +8,6 @@ namespace Logic
         public List<Product> GetProducts();
         public Product PostProduct();
         public Product PutProduct();
-        public Product DeleteProduct();
+        public Product DeleteProduct(Product product);
     }
 }

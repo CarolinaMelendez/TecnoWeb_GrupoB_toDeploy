@@ -10,7 +10,11 @@ namespace Logic
 
         public ProductManager()
         {
-            
+            Products = new List<Product>
+            {
+                new Product() { Name = "Polera", Type = "SOCCER", Code = "SOCCER-001",  Stock = 10 },
+                new Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-001",  Stock = 10 }
+            };
         }
         
         public List<Product> GetProducts()
@@ -25,10 +29,14 @@ namespace Logic
         {
             return null;
         }
-        public Product DeleteProduct()
+        public Product DeleteProduct(Product product)
         {
-            return null;
-
+            var productToDelete = Products.Find(x => x.Code == product.Code);
+            if (productToDelete != null)
+            {
+                Products.Remove(productToDelete);
+            }
+            return productToDelete;
         }
     }
 }

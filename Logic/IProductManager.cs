@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Logic
 {
-    public class Class1
+    public interface IProductManager
     {
+        public List<Product> GetProducts();
+        public Product PostProduct();
+        public Product PutProduct();
+        public Product DeleteProduct();
     }
 }

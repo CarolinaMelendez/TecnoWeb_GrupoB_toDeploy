@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsInventory", "ProductsInventory.csproj", "{13BD924E-4F0F-42C7-8BFF-F7C02401CD2A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{75B99649-55C4-4FFD-9DF3-5EC5D9CC1454} = {75B99649-55C4-4FFD-9DF3-5EC5D9CC1454}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Presentation", "01 - Presentation", "{693916AA-4AB1-4DFC-AD9B-0A72BA9059FF}"
 EndProject
@@ -31,6 +34,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{13BD924E-4F0F-42C7-8BFF-F7C02401CD2A} = {693916AA-4AB1-4DFC-AD9B-0A72BA9059FF}
+		{75B99649-55C4-4FFD-9DF3-5EC5D9CC1454} = {9A5F2D15-2EB0-48A1-B7F6-CB7D1450C393}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC13DAA0-E6E6-41AD-9841-DBC772E63245}

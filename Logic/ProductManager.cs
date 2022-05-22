@@ -19,7 +19,7 @@ namespace Logic
         
         public List<Product> GetProducts()
         {
-            return null;
+            return Products;
         }
         public Product PostProduct()
         {

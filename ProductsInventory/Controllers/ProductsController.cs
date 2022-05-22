@@ -19,7 +19,7 @@ namespace ProductsInventory.Controllers
         [HttpGet]
         public IActionResult GetProducts()
         {
-            return Ok();
+            return Ok(_productManager.GetProducts());
         }
         [HttpPost]
         public IActionResult PostProduct()

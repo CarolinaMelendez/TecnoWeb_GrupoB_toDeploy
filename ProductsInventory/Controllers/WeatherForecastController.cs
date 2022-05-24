@@ -9,6 +9,9 @@ namespace ProductsInventory.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    
+    // FUNCION DE LA CLASE ???
+
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

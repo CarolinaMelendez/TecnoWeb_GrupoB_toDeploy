@@ -21,15 +21,20 @@ namespace Logic
         
         public List<Product> GetProducts()
         {
+            // Sacamos de una CAPA PERSISTIDA, no me alcanzo el tiempo
+            //List<Product> products = _dbLayer.GetProduct();
             return Products;
         }
-        public Product PostProduct()
+        public Product PostProduct(Product product)
         {
-            return null;
+            Products.Add(product);
+            return product;
+            // return null;
         }
-        public Product PutProduct()
+        public Product PutProduct(Product product)
         {
-            return null;
+            return product;
+            // return null;
         }
         public Product DeleteProduct(Product product)
         {

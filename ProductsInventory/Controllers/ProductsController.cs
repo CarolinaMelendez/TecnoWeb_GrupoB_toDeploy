@@ -1,4 +1,5 @@
-﻿using Logic;
+﻿using Auth;
+using Logic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +14,13 @@ namespace ProductsInventory.Controllers
     public class ProductsController : ControllerBase
     {
         private IProductManager _productManager;
+        private ISessionManager _sessionManager;
 
-        public ProductsController(IProductManager productManager)
+        public ProductsController(IProductManager productManager, ISessionManager sessionManager)
         {
+            // this = _(evita ambiguedades)
             _productManager = productManager;
+            _sessionManager = sessionManager;
         }
 
 

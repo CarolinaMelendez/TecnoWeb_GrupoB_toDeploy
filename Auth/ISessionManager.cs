@@ -1,6 +1,6 @@
 ﻿namespace Auth
 {
-    public class ISessionManager
+    public interface ISessionManager
     {
         public Session ValidateCredentials(string userName, string password);
     }

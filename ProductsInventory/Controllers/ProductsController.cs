@@ -23,24 +23,61 @@ namespace ProductsInventory.Controllers
             _sessionManager = sessionManager;
         }
 
-
         [HttpGet]
-        public IActionResult GetProducts()
+        public IActionResult GetProducts([FromHeader] string userName, [FromHeader] string password)
         {
-            return Ok(_productManager.GetProducts());
+            if (_sessionManager.ValidateCredentials(userName, password) != null)
+            {
+                //var productList = _productManager.GetProducts();
+                return Ok(_productManager.GetProducts());
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
+
         [HttpPost]
-        public IActionResult PostProduct()
+        public IActionResult PostProduct([FromHeader] string userName, [FromHeader] string password, [FromBody] Product product)
         {
-            return Ok();
+            if (_sessionManager.ValidateCredentials(userName, password) != null)
+            {
+                return Ok(_productManager.PostProduct(product));
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
+
         [HttpPut]
-        public IActionResult PutProduct()
+        public IActionResult PutProduct(Product product)
         {
-            return Ok();
+            /* OTRA MANERA DE ESCRIBIR
+            if(user.Ci <= 0 || user.Name == null || user.Name.Trim() == "")
+            {
+
+            }*/
+            //Se identifico una manera mas detallada e interesante
+            
+            if(product.Stock <= 0 || String.IsNullOrEmpty(product.Name))
+            {
+
+            }
+
+            Product updated = _productManager.PutProduct(product);
+            if (updated != null)
+            {
+                return Ok(updated);
+            }
+            else
+            {
+                return BadRequest("< No se encuentra el producto >");
+            }
         }
 
         [HttpDelete]
+        // Se deberia protejer el borrado de los productos por Seguridad !!!
         public IActionResult DeleteProduct(Product product)
         {
             Product ProductDeleted = _productManager.DeleteProduct(product);
@@ -51,7 +88,7 @@ namespace ProductsInventory.Controllers
             }
             else
             {
-                return BadRequest("El Productp no ha sido encontrado");
+                return BadRequest("< El Producto no ha sido encontrado >");
             }
         }
     }

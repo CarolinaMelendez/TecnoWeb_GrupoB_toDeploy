@@ -29,12 +29,10 @@ namespace Logic
         {
             Products.Add(product);
             return product;
-            // return null;
         }
         public Product PutProduct(Product product)
         {
             return product;
-            // return null;
         }
         public Product DeleteProduct(Product product)
         {

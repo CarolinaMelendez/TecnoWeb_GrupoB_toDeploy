@@ -1,3 +1,4 @@
+using Auth;
 using Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +18,15 @@ namespace ProductsInventory
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -27,7 +35,43 @@ namespace ProductsInventory
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             services.AddSingleton<IProductManager, ProductManager>();
+            services.AddSingleton<ISessionManager, SessionManager>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                );
+            });
+
+            services.AddSwaggerGen(options =>
+            {
+                var groupName = "Group #2";
+
+                options.SwaggerDoc(groupName, new OpenApiInfo
+                {
+                    //Title = $"Phoenix {groupName}",
+                    Title = $"{Configuration.GetSection("Application").GetSection("Title").Value} {groupName}",
+                    Version = groupName,
+                    Description = "Phoenix API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Phoenix Company and Associates",
+                        Email = string.Empty,
+                        Url = new Uri("https://Phoenix.com"),
+                    }
+                });
+            });
+
+            /*services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Registro_de_Usuarios", Version = "v1" });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,9 +80,17 @@ namespace ProductsInventory
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Registro_de_Usuarios v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("AlloAnyOrigin");
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Phoenix API V1");
+            });
 
             app.UseRouting();
 

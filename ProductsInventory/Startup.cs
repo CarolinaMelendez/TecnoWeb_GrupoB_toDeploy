@@ -51,28 +51,33 @@ namespace ProductsInventory
                     .AllowAnyMethod()
                 );
             });
+            AddSwagger(services);
+            
+        }
 
+        private void AddSwagger(IServiceCollection services)
+        {
             services.AddSwaggerGen(options =>
             {
                 var groupName = "v1";
+                var applicationName = Configuration.GetSection("Application").GetSection("Title").Value;
 
                 options.SwaggerDoc(groupName, new OpenApiInfo
                 {
-                    //Title = $"Phoenix {groupName}",
-                    Title = $"{Configuration.GetSection("Application").GetSection("Title").Value} {groupName}",
+                    Title = $"{applicationName} {groupName}",
                     Version = groupName,
-                    /*
                     // caro: No creo que esto sea necesario, quizas podriamos borrarlo
-                    Description = "Phoenix API",
+                    Description = "Practice 3 - Group 2 API",
                     Contact = new OpenApiContact
                     {
-                        Name = "Phoenix Company and Associates",
+                        Name = "Group 2",
                         Email = string.Empty,
-                        Url = new Uri("https://Phoenix.com"),
-                    }*/
+                        Url = new Uri("https://group2.com"),
+                    }
                 });
             });
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -83,12 +88,11 @@ namespace ProductsInventory
             }
 
             app.UseCors("AllowAnyOrigin");
-            //app.UseHttpsRedirection();
             
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Phoenix API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Group 2 API");
             });
 
             app.UseRouting();

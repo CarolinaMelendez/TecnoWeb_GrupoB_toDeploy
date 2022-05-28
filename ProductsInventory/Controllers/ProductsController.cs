@@ -36,6 +36,11 @@ namespace ProductsInventory.Controllers
                 return Unauthorized();
             }
         }
+        [HttpGet("withoutAuth")]
+        public IActionResult GetProducts()
+        {
+            return Ok(_productManager.GetProducts());
+        }
 
         [HttpPost]
         public IActionResult PostProduct([FromHeader] string userName, [FromHeader] string password, [FromBody] Product product)
@@ -48,6 +53,13 @@ namespace ProductsInventory.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        // Caro: para hacer mis pruebas, por el momente este hice sin seguridad
+        [HttpPost("withoutAuth")]
+        public IActionResult PostProduct([FromBody] Product product)
+        {
+            return Ok(_productManager.PostProduct(product));
         }
 
         [HttpPut]

@@ -36,11 +36,11 @@ namespace ProductsInventory
         {
             services.AddControllers();
 
-            //services.AddSingleton<IProductManager, ProductManager>();
-            //services.AddSingleton<ISessionManager, SessionManager>();
+            services.AddSingleton<IProductManager, ProductManager>();
+            services.AddSingleton<ISessionManager, SessionManager>();
 
-            services.AddTransient<IProductManager, ProductManager>();
-            services.AddTransient<ISessionManager, SessionManager>();
+            //services.AddTransient<IProductManager, ProductManager>();
+            //services.AddTransient<ISessionManager, SessionManager>();
             
             services.AddCors(options =>
             {
@@ -62,6 +62,7 @@ namespace ProductsInventory
                     Title = $"{Configuration.GetSection("Application").GetSection("Title").Value} {groupName}",
                     Version = groupName,
                     /*
+                    // caro: No creo que esto sea necesario, quizas podriamos borrarlo
                     Description = "Phoenix API",
                     Contact = new OpenApiContact
                     {
@@ -71,11 +72,6 @@ namespace ProductsInventory
                     }*/
                 });
             });
-
-            /*services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Registro_de_Usuarios", Version = "v1" });
-            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,8 +82,8 @@ namespace ProductsInventory
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseCors("AlloAnyOrigin");
-            app.UseHttpsRedirection();
+            app.UseCors("AllowAnyOrigin");
+            //app.UseHttpsRedirection();
             
             app.UseSwagger();
             app.UseSwaggerUI(c =>

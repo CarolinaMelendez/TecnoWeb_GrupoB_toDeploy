@@ -36,9 +36,12 @@ namespace ProductsInventory
         {
             services.AddControllers();
 
-            services.AddSingleton<IProductManager, ProductManager>();
-            services.AddSingleton<ISessionManager, SessionManager>();
+            //services.AddSingleton<IProductManager, ProductManager>();
+            //services.AddSingleton<ISessionManager, SessionManager>();
 
+            services.AddTransient<IProductManager, ProductManager>();
+            services.AddTransient<ISessionManager, SessionManager>();
+            
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",
@@ -51,20 +54,21 @@ namespace ProductsInventory
 
             services.AddSwaggerGen(options =>
             {
-                var groupName = "Group #2";
+                var groupName = "v1";
 
                 options.SwaggerDoc(groupName, new OpenApiInfo
                 {
                     //Title = $"Phoenix {groupName}",
                     Title = $"{Configuration.GetSection("Application").GetSection("Title").Value} {groupName}",
                     Version = groupName,
+                    /*
                     Description = "Phoenix API",
                     Contact = new OpenApiContact
                     {
                         Name = "Phoenix Company and Associates",
                         Email = string.Empty,
                         Url = new Uri("https://Phoenix.com"),
-                    }
+                    }*/
                 });
             });
 
@@ -80,12 +84,11 @@ namespace ProductsInventory
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Registro_de_Usuarios v1"));
             }
 
-            app.UseCors("AlloAnyOrigin");
-
+            //app.UseCors("AlloAnyOrigin");
+            app.UseHttpsRedirection();
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

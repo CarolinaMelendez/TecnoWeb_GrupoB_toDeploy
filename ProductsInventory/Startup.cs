@@ -91,7 +91,7 @@ namespace ProductsInventory
 
             app.UseAuthorization();
 
-            //app.UseAuthenticationMiddleware();  //Falta implementar headers para porder usar este middleware
+            app.UseAuthenticationMiddleware();
 
             app.UseSwagger(); 
             app.UseSwaggerUI(c =>

@@ -18,46 +18,18 @@ namespace ProductsInventory.Controllers
 
         public ProductsController(IProductManager productManager, ISessionManager sessionManager)
         {
-            // this = _(evita ambiguedades)
             _productManager = productManager;
             _sessionManager = sessionManager;
         }
 
         [HttpGet]
-        public IActionResult GetProducts([FromHeader] string userName, [FromHeader] string password)
-        {
-            if (_sessionManager.ValidateCredentials(userName, password) != null)
-            {
-                //var productList = _productManager.GetProducts();
-                return Ok(_productManager.GetProducts());
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-        [HttpGet("withoutAuth")]
         public IActionResult GetProducts()
         {
             return Ok(_productManager.GetProducts());
         }
 
         [HttpPost]
-        public IActionResult PostProduct([FromHeader] string userName, [FromHeader] string password, [FromBody] Product product)
-        {
-            if (_sessionManager.ValidateCredentials(userName, password) != null)
-            {
-                return Ok(_productManager.PostProduct(product));
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-
-        // Caro: para hacer mis pruebas, por el momente este hice sin seguridad
-        [HttpPost("withoutAuth")]
-        public IActionResult PostProduct([FromBody] Product product)
+        public IActionResult PostProduct(Product product)
         {
             return Ok(_productManager.PostProduct(product));
         }
@@ -89,7 +61,6 @@ namespace ProductsInventory.Controllers
         }
 
         [HttpDelete]
-        // Se deberia protejer el borrado de los productos por Seguridad !!!
         public IActionResult DeleteProduct(Product product)
         {
             Product ProductDeleted = _productManager.DeleteProduct(product);

@@ -91,7 +91,9 @@ namespace ProductsInventory
 
             app.UseAuthorization();
 
-            app.UseSwagger();
+            //app.UseAuthenticationMiddleware();  //Falta implementar headers para porder usar este middleware
+
+            app.UseSwagger(); 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Group 2 API");

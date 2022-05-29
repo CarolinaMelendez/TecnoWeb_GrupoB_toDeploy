@@ -16,9 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "..\Logic\Logic.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth", "..\Auth\Auth.csproj", "{344299BA-CA9A-4E7E-87EF-471C5A8F7552}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB", "..\ClassLibrary1\DB.csproj", "{A0FD2C14-9E33-44D4-8F17-DB6E2168C6B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB", "..\Database\DB.csproj", "{A0FD2C14-9E33-44D4-8F17-DB6E2168C6B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "..\ClassLibrary2\Services.csproj", "{BC9B40BF-3CCC-4EFC-8943-83D796FDFB3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "..\Services\Services.csproj", "{BC9B40BF-3CCC-4EFC-8943-83D796FDFB3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Database", "03 - Database", "{54DCC476-FA96-4B87-89F6-81F74D7A5DFE}"
 EndProject

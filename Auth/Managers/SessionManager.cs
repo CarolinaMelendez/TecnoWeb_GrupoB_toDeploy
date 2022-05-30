@@ -19,9 +19,5 @@ namespace Auth
             //return _fbServices.validateUser(userName, password);
             return _sessions.Find(session => session.UserName == userName && session.Password == password);
         }
-        /*public string GetRole()
-        {
-
-        }*/
     }
 }

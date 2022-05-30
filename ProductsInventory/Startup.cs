@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Auth;
+using DB;
 using Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,10 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ProductsInventory.Middlewares;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
 
 namespace ProductsInventory
 {
@@ -28,6 +30,22 @@ namespace ProductsInventory
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithEnvironmentName()
+                .CreateLogger();
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log confugiration was succesfully intialized");
         }
 
         public IConfiguration Configuration { get; }
@@ -37,12 +55,12 @@ namespace ProductsInventory
         {
             services.AddControllers();
 
-            services.AddSingleton<IProductManager, ProductManager>();
-            services.AddSingleton<ISessionManager, SessionManager>();
+            services.AddTransient<IProductManager, ProductManager>();
+            services.AddTransient<ISessionManager, SessionManager>();
+            services.AddTransient<Services.IdNumberService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<P2DbContext>();
 
-            //services.AddTransient<IProductManager, ProductManager>();
-            //services.AddTransient<ISessionManager, SessionManager>();
-            
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",
@@ -51,23 +69,31 @@ namespace ProductsInventory
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                 );
+                /* options.AddPolicy("AllowOrigins-QA",
+                    builder => builder
+                        // .AllowAnyOrigin()
+                        .WithOrigins("192.168.0.1", "...")
+                        // .AllowAnyHeader()
+                        .WithHeaders("username", "password", "content-type")
+                        // .AllowAnyMethod()
+                        .WithMethods("GET", "POST", "PUT")
+                );
+                options.AddPolicy("AllowAnyOrigin",
+                    builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                ); */
             });
-            AddSwagger(services);
-            
-        }
-
-        private void AddSwagger(IServiceCollection services)
-        {
+               
             services.AddSwaggerGen(options =>
             {
                 var groupName = "v1";
-                var applicationName = Configuration.GetSection("Application").GetSection("Title").Value;
 
                 options.SwaggerDoc(groupName, new OpenApiInfo
                 {
-                    Title = $"{applicationName} {groupName}",
+                    Title = $"{Configuration.GetSection("Application").GetSection("Title").Value} {groupName}",
                     Version = groupName,
-                    // caro: No creo que esto sea necesario, quizas podriamos borrarlo
                     Description = "Practice 3 - Group 2 API",
                     Contact = new OpenApiContact
                     {
@@ -79,19 +105,28 @@ namespace ProductsInventory
             });
         }
 
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseGroupTwoExceptionMiddleware();
 
+            // app.UseHsts();
+
+            // app.UseHttpsRedirection();
+
+            // app.UseStaticFiles(); // FOR MVC
+
             app.UseRouting();
 
             app.UseCors("AllowAnyOrigin");
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
+
+            // app.UseAuthentication();
 
             app.UseAuthenticationMiddleware();
+
+            // app.UseDemoCustomTwoMiddleware();
 
             app.UseSwagger(); 
             app.UseSwaggerUI(c =>

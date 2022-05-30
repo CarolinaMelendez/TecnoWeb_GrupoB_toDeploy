@@ -1,11 +1,11 @@
-﻿using Auth;
-using Logic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auth;
+using Logic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ProductsInventory.Controllers
 {
@@ -14,12 +14,9 @@ namespace ProductsInventory.Controllers
     public class ProductsController : ControllerBase
     {
         private IProductManager _productManager;
-        private ISessionManager _sessionManager;
-
-        public ProductsController(IProductManager productManager, ISessionManager sessionManager)
+        public ProductsController(IProductManager productManager)
         {
             _productManager = productManager;
-            _sessionManager = sessionManager;
         }
 
         [HttpGet]
@@ -28,51 +25,31 @@ namespace ProductsInventory.Controllers
             return Ok(_productManager.GetProducts());
         }
 
+        [HttpGet]
+        [Route("{userId}/accounts/{accountId}")]
+        /*  /api/users/6400000/accounts/1232-asdfasdf-335-as */ // :) // :(
+        public IActionResult GetUsersAccountsby(string productId, string accountId)
+        {
+            return Ok();
+        }
+
         [HttpPost]
-        public IActionResult PostProduct(Product product)
+        public IActionResult PostProducts([FromBody] Logic.Models.Product product)
         {
             return Ok(_productManager.PostProduct(product));
         }
 
         [HttpPut]
-        public IActionResult PutProduct(Product product)
+        public IActionResult PutProducts([FromBody] Logic.Models.Product product)
         {
-            /* OTRA MANERA DE ESCRIBIR
-            if(user.Ci <= 0 || user.Name == null || user.Name.Trim() == "")
-            {
-
-            }*/
-            //Se identifico una manera mas detallada e interesante
-            
-            if(product.Stock <= 0 || String.IsNullOrEmpty(product.Name))
-            {
-
-            }
-
-            Product updated = _productManager.PutProduct(product);
-            if (updated != null)
-            {
-                return Ok(updated);
-            }
-            else
-            {
-                return BadRequest("< No se encuentra el producto >");
-            }
+            return Ok(_productManager.PutProduct(product));
         }
 
         [HttpDelete]
-        public IActionResult DeleteProduct(Product product)
+        [Route("{userId}")]
+        public IActionResult DeleteProducts(Guid productId)
         {
-            Product ProductDeleted = _productManager.DeleteProduct(product);
-
-            if (ProductDeleted != null)
-            {
-                return Ok(ProductDeleted);
-            }
-            else
-            {
-                return BadRequest("< El Producto no ha sido encontrado >");
-            }
+            return Ok(_productManager.DeleteProduct(productId));
         }
     }
 }

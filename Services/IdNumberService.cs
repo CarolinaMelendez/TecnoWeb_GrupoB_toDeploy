@@ -30,15 +30,15 @@ namespace Services
                     }
                     else
                     {
-                        throw new NumberServiceException("HUBO FALLAS al pedir info de Carnet");
+                        throw new NumberServiceException("HUBO FALLAS al pedir info del Producto");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("HUBO FALLAS al pedir info de Carnet");
+                Console.WriteLine("HUBO FALLAS al pedir info del Producto");
                 Console.WriteLine(ex.Message + ex.StackTrace);
-                throw new NumberServiceException("HUBO FALLAS al pedir info de Carnet: " + ex.Message);
+                throw new NumberServiceException("HUBO FALLAS al pedir info del Producto: " + ex.Message);
             }
         }
     }

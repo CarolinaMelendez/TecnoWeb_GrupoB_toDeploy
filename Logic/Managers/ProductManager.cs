@@ -14,6 +14,10 @@ namespace Logic
         private IdNumberService _idNumberService;
         private IUnitOfWork _uow;
 
+
+        // ---> Descomentar cuando ya este la conexión con la DB
+
+        /*
         //public ProductManager(IDbLayer dbLayer)
         public ProductManager(IdNumberService idNumberService, IUnitOfWork uow)
         {
@@ -26,10 +30,26 @@ namespace Logic
                 new Logic.Models.Product() { Name = "Tennis", Type = "BASQUET", Code = "BASQUET-001",  Price = 120, Stock = 250 },
                 new Logic.Models.Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-002", Price = 50, Stock = 20 }
             };
+        }*/
+
+
+        // --->  Mientras tanto
+        public ProductManager()
+        {
+            Products = new List<Logic.Models.Product>()
+            {
+                new Logic.Models.Product() { Name = "Polera", Type = "SOCCER", Code = "SOCCER-001",  Price = 45, Stock = 100 },
+                new Logic.Models.Product() { Name = "Corto", Type = "SOCCER", Code = "SOCCER-002",  Price = 30, Stock = 50 },
+                new Logic.Models.Product() { Name = "Tennis", Type = "BASQUET", Code = "BASQUET-001",  Price = 120, Stock = 250 },
+                new Logic.Models.Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-002", Price = 50, Stock = 20 }
+            };
         }
-        
+
         public List<Logic.Models.Product> GetProducts()
         {
+            // ---> Descomentar cuando ya este la conexión con la DB
+
+            /*
             // List<DBLayer.Models.User> users = _dbLayer.GetUser();
             // return Users;
             List<DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
@@ -41,6 +61,10 @@ namespace Logic
             }
 
             return productsConverted;
+            */
+
+            // --->  Mientras tanto
+            return Products;
         }
 
         
@@ -59,6 +83,9 @@ namespace Logic
             Products.Add(product);
             return product; */
 
+
+            // ---> Descomentar cuando ya este la conexión con la DB (lo de abajo)
+            /*
             DB.Models.Product productConverted = new DB.Models.Product()
             {
                 Name = product.Name,
@@ -72,8 +99,13 @@ namespace Logic
             _uow.Save();
 
             return product;
+            */
+
+            // --->  Mientras tanto
+            Products.Add(product);
+            return product;
         }
-  
+
 
         public Logic.Models.Product PutProduct(Logic.Models.Product product)
         {

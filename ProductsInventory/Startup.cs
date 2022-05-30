@@ -55,7 +55,12 @@ namespace ProductsInventory
         {
             services.AddControllers();
 
-            services.AddTransient<IProductManager, ProductManager>();
+            // ---> Descomentar cuando ya este la conexión con la DB
+            //services.AddTransient<IProductManager, ProductManager>();
+            // --->  Mientras tanto
+            services.AddSingleton<IProductManager, ProductManager>();
+
+
             services.AddTransient<ISessionManager, SessionManager>();
             services.AddTransient<Services.IdNumberService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

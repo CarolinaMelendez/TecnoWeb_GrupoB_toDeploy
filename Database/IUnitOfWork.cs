@@ -4,8 +4,15 @@ using System.Text;
 
 namespace DB
 {
-    class IUnitOfWork
+    public interface IUnitOfWork
     {
+        void BeginTransaction();
+        void CommitTransaction();
+        void RollBackTransaction();
 
+        // FROM HERE
+        void Save();
+
+        ProductRepository ProductRepository { get; }
     }
 }

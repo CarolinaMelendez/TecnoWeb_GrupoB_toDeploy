@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DB;
 using Logic.Models;
 using Services;
-using DBLayer.Models;
-using DBLayer;
+// using DBLayer.Models;
+// using DBLayer;
 
 namespace Logic
 {
@@ -31,17 +32,19 @@ namespace Logic
         {
             // List<DBLayer.Models.User> users = _dbLayer.GetUser();
             // return Users;
-            List<DB.Models.Product> products = _uow.UserRepository.GetAll().Result;
+            List<DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
 
-            List<Logic.Models.Product> usersConverted = new List<Models.Product>();
+            List<Logic.Models.Product> productsConverted = new List<Models.Product>();
             foreach (DB.Models.Product item in products)
             {
-                usersConverted.Add(new Logic.Models.Product() { Name = item.Name, Type = item.Type, Code = item.Code, Price = item.Price, Stock = item.Stock });
+                productsConverted.Add(new Logic.Models.Product() { Name = item.Name, Type = item.Type, Code = item.Code, Price = item.Price, Stock = item.Stock });
             }
 
             return productsConverted;
         }
-        public Logic.Models.Product PostUser(Logic.Models.Product product)
+
+        
+        public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
             /* 
              int ciParsed = 0;
@@ -56,7 +59,7 @@ namespace Logic
             Products.Add(product);
             return product; */
 
-            DB.Models.Product ProductConverted = new DB.Models.Product()
+            DB.Models.Product productConverted = new DB.Models.Product()
             {
                 Name = product.Name,
                 Type = product.Type,
@@ -65,12 +68,14 @@ namespace Logic
                 Stock = product.Stock,
                 Id = new Guid()
             };
-            productConverted = _uow.UserRepository.CreateProduct(productConverted);
+            productConverted = _uow.ProductRepository.CreateProduct(productConverted);
             _uow.Save();
 
             return product;
         }
-        public Logic.Models.Product PutUser(Logic.Models.Product product)
+  
+
+        public Logic.Models.Product PutProduct(Logic.Models.Product product)
         {
             DB.Models.Product productFound = _uow.ProductRepository.GetById(product.Id);
 
@@ -85,7 +90,7 @@ namespace Logic
 
             return product;
         }
-        public Logic.Models.Product DeleteUser(Guid productId)
+        public Logic.Models.Product DeleteProduct(Guid productId)
         {
             DB.Models.Product productFound = _uow.ProductRepository.GetById(productId);
 

@@ -7,8 +7,8 @@ namespace Logic
     public interface IProductManager
     {
         public List<Product> GetProducts();
-        public Product PostProduct(Product product);
-        public Product PutProduct(Product product);
+        public Product PostProduct(Logic.Models.Product product);
+        public Product PutProduct(Logic.Models.Product product);
         public Product DeleteProduct(Guid productId);
     }
 }

@@ -15,12 +15,12 @@ namespace DB
             _context = context;
         }
 
-        public async Task<List<Product>> GetAll()
+        public async Task<List<Product>> GetAllProducts()
         {
             return await _context.Set<Product>().ToListAsync();
         }
 
-        public Product CreateUser(Product product)
+        public Product CreateProduct(Product product)
         {
             _context.Set<Product>().Add(product);
             return product;
@@ -31,13 +31,13 @@ namespace DB
             return _context.Set<Product>().Find(id);
         }
 
-        public Product UpdateUser(Product product)
+        public Product UpdateProduct (Product product)
         {
             _context.Entry(product).State = EntityState.Modified;
             return product;
         }
 
-        public Product DeleteUser(Product product)
+        public Product DeleteProduct(Product product)
         {
             _context.Set<Product>().Remove(product);
             return product;

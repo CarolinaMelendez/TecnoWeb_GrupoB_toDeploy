@@ -102,10 +102,42 @@ namespace Logic
             */
 
             // --->  Mientras tanto
+            product.Code = getNewCode(product.Type);
             Products.Add(product);
             return product;
         }
 
+        public string getNewCode (string typeProduct)
+        {
+            string newNumberOfCode = "";
+            int nextNumber = 0;
+            // implementar excepcion si el usuario inserta un tipo diferente de SOCCER OF BASKET
+            List<Logic.Models.Product> listOneType = Products.FindAll(product => product.Type == typeProduct);
+
+            if (listOneType.Count == 0)
+            {
+                return typeProduct + "-001";
+            }
+            else
+            {
+                string lastCode = listOneType[listOneType.Count - 1].Code;
+                nextNumber = Int32.Parse(lastCode.Split('-')[1]) + 1;
+            }
+
+            if (nextNumber < 10)
+            {
+                newNumberOfCode = "-00" + nextNumber;
+            }else if (nextNumber < 100)
+            {
+                newNumberOfCode = "-0" + nextNumber;
+            }
+            else
+            {
+                newNumberOfCode = "-" + nextNumber;
+            }
+            // implementar excepcion si hay más de 999 
+            return typeProduct + newNumberOfCode;
+        }
 
         public Logic.Models.Product PutProduct(Logic.Models.Product product)
         {

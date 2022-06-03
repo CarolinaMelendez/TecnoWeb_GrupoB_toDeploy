@@ -8,9 +8,9 @@ namespace DB
 {
     public class ProductRepository
     {
-        private P2DbContext _context;
+        private PIDbContext _context;
 
-        public ProductRepository(P2DbContext context)
+        public ProductRepository(PIDbContext context)
         {
             _context = context;
         }

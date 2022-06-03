@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using DB;
 using Logic.Models;
 using Services;
-// using DBLayer.Models;
-// using DBLayer;
+using DB.Models;
 
 namespace Logic
 {
     public class ProductManager : IProductManager
     {
-        public List<Product> Products { get; set; }
-        private IdNumberService _idNumberService;
+        public List<Logic.Models.Product> Products { get; set; }
+        //private IdNumberService _idNumberService;
         private IUnitOfWork _uow;
 
 
-        // ---> Descomentar cuando ya este la conexión con la DB
-
-        /*
         //public ProductManager(IDbLayer dbLayer)
         public ProductManager(IdNumberService idNumberService, IUnitOfWork uow)
         {
             _uow = uow;
-            _idNumberService = idNumberService;
+            //_idNumberService = idNumberService;
             Products = new List<Logic.Models.Product>()
             {
                 new Logic.Models.Product() { Name = "Polera", Type = "SOCCER", Code = "SOCCER-001",  Price = 45, Stock = 100 },
@@ -30,9 +26,9 @@ namespace Logic
                 new Logic.Models.Product() { Name = "Tennis", Type = "BASQUET", Code = "BASQUET-001",  Price = 120, Stock = 250 },
                 new Logic.Models.Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-002", Price = 50, Stock = 20 }
             };
-        }*/
+        }
 
-
+        /*
         // --->  Mientras tanto
         public ProductManager()
         {
@@ -44,66 +40,35 @@ namespace Logic
                 new Logic.Models.Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-002", Price = 50, Stock = 20 }
             };
         }
-
+        */
+        
         public List<Logic.Models.Product> GetProducts()
         {
-            // ---> Descomentar cuando ya este la conexión con la DB
-
-            /*
-            // List<DBLayer.Models.User> users = _dbLayer.GetUser();
-            // return Users;
             List<DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
 
             List<Logic.Models.Product> productsConverted = new List<Models.Product>();
             foreach (DB.Models.Product item in products)
             {
-                productsConverted.Add(new Logic.Models.Product() { Name = item.Name, Type = item.Type, Code = item.Code, Price = item.Price, Stock = item.Stock });
+                productsConverted.Add(new Logic.Models.Product() { Id = item.Id, Name = item.Name, Type = item.Type, Code = item.Code, Stock = item.Stock });
             }
 
             return productsConverted;
-            */
-
-            // --->  Mientras tanto
-            return Products;
         }
 
         
         public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
-            /* 
-             int ciParsed = 0;
-             if (Int32.TryParse(product.CI, out ciParsed))
-             {
-                 throw new InvalidCIException();
-             }
-             */
-
-            /* string idNumber = _idNumberService.GetIdNumberServiceAsync().Result;
-            product.Id = idNumber;
-            Products.Add(product);
-            return product; */
-
-
-            // ---> Descomentar cuando ya este la conexión con la DB (lo de abajo)
-            /*
             DB.Models.Product productConverted = new DB.Models.Product()
             {
                 Name = product.Name,
                 Type = product.Type,
                 Code = product.Code,
-                Price = product.Price,
                 Stock = product.Stock,
                 Id = new Guid()
             };
             productConverted = _uow.ProductRepository.CreateProduct(productConverted);
             _uow.Save();
 
-            return product;
-            */
-
-            // --->  Mientras tanto
-            product.Code = getNewCode(product.Type);
-            Products.Add(product);
             return product;
         }
 
@@ -146,7 +111,6 @@ namespace Logic
             productFound.Name = product.Name;
             productFound.Type = product.Type;
             productFound.Code = product.Code;
-            productFound.Price = product.Price;
             productFound.Stock = product.Stock;
 
             _uow.ProductRepository.UpdateProduct(productFound);
@@ -161,7 +125,7 @@ namespace Logic
             _uow.ProductRepository.DeleteProduct(productFound);
             _uow.Save();
 
-            return new Logic.Models.Product() { Name = productFound.Name, Type = productFound.Type, Id = productFound.Id, Code = productFound.Code, Price = productFound.Price, Stock = productFound.Stock };
+            return new Logic.Models.Product() { Name = productFound.Name, Type = productFound.Type, Id = productFound.Id, Code = productFound.Code, Stock = productFound.Stock };
         }
     }
 }

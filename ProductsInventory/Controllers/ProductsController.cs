@@ -25,14 +25,6 @@ namespace ProductsInventory.Controllers
             return Ok(_productManager.GetProducts());
         }
 
-        [HttpGet]
-        [Route("{userId}/accounts/{accountId}")]
-        /*  /api/users/6400000/accounts/1232-asdfasdf-335-as */ // :) // :(
-        public IActionResult GetUsersAccountsby(string productId, string accountId)
-        {
-            return Ok();
-        }
-
         [HttpPost]
         public IActionResult PostProducts([FromBody] Logic.Models.Product product)
         {
@@ -46,7 +38,7 @@ namespace ProductsInventory.Controllers
         }
 
         [HttpDelete]
-        [Route("{userId}")]
+        [Route("{productId}")]
         public IActionResult DeleteProducts(Guid productId)
         {
             return Ok(_productManager.DeleteProduct(productId));

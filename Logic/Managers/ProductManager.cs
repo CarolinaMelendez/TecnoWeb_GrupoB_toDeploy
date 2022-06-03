@@ -10,13 +10,13 @@ namespace Logic
     public class ProductManager : IProductManager
     {
         public List<Logic.Models.Product> Products { get; set; }
-        //private IdNumberService _idNumberService;
+        private GetPriceService _getPriceService;
         private IUnitOfWork _uow;
 
-
         //public ProductManager(IDbLayer dbLayer)
-        public ProductManager(IdNumberService idNumberService, IUnitOfWork uow)
+        public ProductManager(GetPriceService getPriceService, IUnitOfWork uow)
         {
+            _getPriceService = getPriceService;
             _uow = uow;
             //_idNumberService = idNumberService;
             Products = new List<Logic.Models.Product>()
@@ -58,12 +58,14 @@ namespace Logic
         
         public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
+            int newPriceGenerate = _getPriceService.GetPriceServiceAsync().Result ;
             DB.Models.Product productConverted = new DB.Models.Product()
             {
                 Name = product.Name,
                 Type = product.Type,
                 Code = getNewCode(product.Type),
                 Stock = product.Stock,
+                Price = newPriceGenerate,
                 Id = new Guid()
             };
             productConverted = _uow.ProductRepository.CreateProduct(productConverted);

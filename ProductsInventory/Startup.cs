@@ -61,7 +61,7 @@ namespace ProductsInventory
 
 
             services.AddTransient<ISessionManager, SessionManager>();
-            services.AddTransient<Services.IdNumberService>();
+            services.AddTransient<Services.GetPriceService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<PIDbContext>();
 

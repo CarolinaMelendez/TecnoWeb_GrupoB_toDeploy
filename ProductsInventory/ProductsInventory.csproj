@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Auth\Auth.csproj" />
     <ProjectReference Include="..\Logic\Logic.csproj" />
-    <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>

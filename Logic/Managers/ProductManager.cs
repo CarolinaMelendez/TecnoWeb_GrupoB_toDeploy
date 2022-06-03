@@ -96,8 +96,11 @@ namespace Logic
             DB.Models.Product productFound = _uow.ProductRepository.GetById(product.Id);
 
             productFound.Name = product.Name;
+            if (product.Type != productFound.Type)
+            {
+                productFound.Code = getNewCode(product.Type);
+            }
             productFound.Type = product.Type;
-            productFound.Code = product.Code;
             productFound.Stock = product.Stock;
 
             _uow.ProductRepository.UpdateProduct(productFound);

@@ -6,10 +6,9 @@ namespace DB
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private P2DbContext _context;
+        private PIDbContext _context;
 
         private ProductRepository _productRepository;
-        private AddresssRepository _addresssRepository;
 
         public ProductRepository ProductRepository
         {
@@ -19,19 +18,10 @@ namespace DB
             }
         }
 
-        public AddresssRepository AddresssRepository
-        {
-            get
-            {
-                return _addresssRepository;
-            }
-        }
-
-        public UnitOfWork(P2DbContext context)
+        public UnitOfWork(PIDbContext context)
         {
             _context = context;
             _productRepository = new ProductRepository(_context);
-            _addresssRepository = new AddresssRepository(_context);
         }
         public void BeginTransaction()
         {

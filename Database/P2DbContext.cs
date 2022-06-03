@@ -13,8 +13,6 @@ namespace DB
 
         public DbSet<Product> Product { get; set; }
         
-        public DbSet<Addresss> Addresss { get; set; }
-
         public P2DbContext(IConfiguration configuration)
         {
             _configuration = configuration;

@@ -28,7 +28,6 @@ namespace Logic
         
         public List<Logic.Models.Product> GetProducts() { 
             double newPriceGenerate;
-
             List <DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
 
             List<Logic.Models.Product> productsConverted = new List<Models.Product>();
@@ -37,8 +36,7 @@ namespace Logic
                 newPriceGenerate = _getPriceService.GetPriceServiceAsync().Result;
                 productsConverted.Add(new Logic.Models.Product() { Id = item.Id, Name = item.Name, Type = item.Type, Code = item.Code, Stock = item.Stock, Price = newPriceGenerate });
             }
-
-            return productsConverted;
+            return Products;
         }
 
         

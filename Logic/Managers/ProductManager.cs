@@ -13,12 +13,10 @@ namespace Logic
         private GetPriceService _getPriceService;
         private IUnitOfWork _uow;
 
-        //public ProductManager(IDbLayer dbLayer)
         public ProductManager(GetPriceService getPriceService, IUnitOfWork uow)
         {
             _getPriceService = getPriceService;
             _uow = uow;
-            //_idNumberService = idNumberService;
             Products = new List<Logic.Models.Product>()
             {
                 new Logic.Models.Product() { Name = "Polera", Type = "SOCCER", Code = "SOCCER-001",  Price = 45, Stock = 100 },
@@ -27,29 +25,17 @@ namespace Logic
                 new Logic.Models.Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-002", Price = 50, Stock = 20 }
             };
         }
-
-        /*
-        // --->  Mientras tanto
-        public ProductManager()
-        {
-            Products = new List<Logic.Models.Product>()
-            {
-                new Logic.Models.Product() { Name = "Polera", Type = "SOCCER", Code = "SOCCER-001",  Price = 45, Stock = 100 },
-                new Logic.Models.Product() { Name = "Corto", Type = "SOCCER", Code = "SOCCER-002",  Price = 30, Stock = 50 },
-                new Logic.Models.Product() { Name = "Tennis", Type = "BASQUET", Code = "BASQUET-001",  Price = 120, Stock = 250 },
-                new Logic.Models.Product() { Name = "Balon", Type = "BASKET", Code = "BASKET-002", Price = 50, Stock = 20 }
-            };
-        }
-        */
         
-        public List<Logic.Models.Product> GetProducts()
-        {
-            List<DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
+        public List<Logic.Models.Product> GetProducts() { 
+            double newPriceGenerate;
+
+            List <DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
 
             List<Logic.Models.Product> productsConverted = new List<Models.Product>();
             foreach (DB.Models.Product item in products)
             {
-                productsConverted.Add(new Logic.Models.Product() { Id = item.Id, Name = item.Name, Type = item.Type, Code = item.Code, Stock = item.Stock });
+                newPriceGenerate = _getPriceService.GetPriceServiceAsync().Result;
+                productsConverted.Add(new Logic.Models.Product() { Id = item.Id, Name = item.Name, Type = item.Type, Code = item.Code, Stock = item.Stock, Price = newPriceGenerate });
             }
 
             return productsConverted;
@@ -58,14 +44,13 @@ namespace Logic
         
         public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
-            int newPriceGenerate = _getPriceService.GetPriceServiceAsync().Result ;
+         
             DB.Models.Product productConverted = new DB.Models.Product()
             {
                 Name = product.Name,
                 Type = product.Type,
                 Code = getNewCode(product.Type),
                 Stock = product.Stock,
-                Price = newPriceGenerate,
                 Id = new Guid()
             };
             productConverted = _uow.ProductRepository.CreateProduct(productConverted);

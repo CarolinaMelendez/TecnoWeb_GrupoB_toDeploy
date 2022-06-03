@@ -8,7 +8,7 @@ namespace Logic.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string Code { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public int Stock { get; set; }
     }
 }

@@ -24,11 +24,11 @@ namespace Services.Models
         public string uid { get; set; }
         public int number { get; set; }
         public string leading_zero_number { get; set; }
-        public int decimal_ { get; set; }
-        public int normal { get; set; }
+        public float decimal_ { get; set; }
+        public float normal { get; set; }
         public string hexadecimal { get; set; }
-        public int positive { get; set; }
-        public int negative { get; set; }
+        public float positive { get; set; }
+        public float negative { get; set; }
         public int non_zero_number { get; set; }
         public int digit { get; set; } 
 }

@@ -10,7 +10,7 @@ namespace Services
 {
     public class GetPriceService
     {
-        public async Task<int> GetPriceServiceAsync()
+        public async Task<double> GetPriceServiceAsync()
         {
             Console.WriteLine("Pidiendo precio del Producto");
             using (HttpClient client = new HttpClient())

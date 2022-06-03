@@ -62,7 +62,7 @@ namespace Logic
             {
                 Name = product.Name,
                 Type = product.Type,
-                Code = product.Code,
+                Code = getNewCode(product.Type),
                 Stock = product.Stock,
                 Id = new Guid()
             };
@@ -72,12 +72,13 @@ namespace Logic
             return product;
         }
 
-        public string getNewCode (string typeProduct)
+        public string getNewCode(string typeProduct)
         {
             string newNumberOfCode = "";
             int nextNumber = 0;
             // implementar excepcion si el usuario inserta un tipo diferente de SOCCER OF BASKET
-            List<Logic.Models.Product> listOneType = Products.FindAll(product => product.Type == typeProduct);
+            
+            List<Logic.Models.Product> listOneType = GetProducts().FindAll(product => product.Type == typeProduct);
 
             if (listOneType.Count == 0)
             {
@@ -92,7 +93,8 @@ namespace Logic
             if (nextNumber < 10)
             {
                 newNumberOfCode = "-00" + nextNumber;
-            }else if (nextNumber < 100)
+            }
+            else if (nextNumber < 100)
             {
                 newNumberOfCode = "-0" + nextNumber;
             }

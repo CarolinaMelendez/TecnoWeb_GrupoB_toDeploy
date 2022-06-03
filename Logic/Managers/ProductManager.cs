@@ -36,7 +36,7 @@ namespace Logic
                 newPriceGenerate = _getPriceService.GetPriceServiceAsync().Result;
                 productsConverted.Add(new Logic.Models.Product() { Id = item.Id, Name = item.Name, Type = item.Type, Code = item.Code, Stock = item.Stock, Price = newPriceGenerate });
             }
-            return Products;
+            return productsConverted;
         }
 
         

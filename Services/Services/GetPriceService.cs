@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using Services.Models;
 using System.Collections.Generic;
 using Services.Exceptions;
+using Microsoft.Extensions.Configuration;
 
 namespace Services
 {
     public class GetPriceService
     {
+        private IConfiguration _configuration;
+
         public async Task<double> GetPriceServiceAsync()
         {
             Console.WriteLine("Pidiendo precio del Producto");

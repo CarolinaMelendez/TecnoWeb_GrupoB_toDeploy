@@ -10,10 +10,10 @@ namespace Logic
     public class ProductManager : IProductManager
     {
         public List<Logic.Models.Product> Products { get; set; }
-        private GetPriceService _getPriceService;
+        private PriceService _getPriceService;
         private IUnitOfWork _uow;
 
-        public ProductManager(GetPriceService getPriceService, IUnitOfWork uow)
+        public ProductManager(PriceService getPriceService, IUnitOfWork uow)
         {
             _getPriceService = getPriceService;
             _uow = uow;

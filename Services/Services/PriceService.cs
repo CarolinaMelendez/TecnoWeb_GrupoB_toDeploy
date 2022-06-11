@@ -9,11 +9,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Services
 {
-    public class GetPriceService
+    public class PriceService
     {
         private IConfiguration _configuration;
 
-        public GetPriceService(IConfiguration configuration)
+        public PriceService(IConfiguration configuration)
         {
             _configuration = configuration;
         }

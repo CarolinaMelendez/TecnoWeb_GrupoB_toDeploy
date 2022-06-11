@@ -60,7 +60,7 @@ namespace Logic
         {
             string newNumberOfCode = "";
             int nextNumber = 0;
-            if (typeProduct != "SOCCER" || typeProduct != "BASKET")
+            if (typeProduct != "SOCCER" && typeProduct != "BASKET")
             {
                 throw new InvalidTypeException($"El tipo de producto '{typeProduct}' no es valido");
             }

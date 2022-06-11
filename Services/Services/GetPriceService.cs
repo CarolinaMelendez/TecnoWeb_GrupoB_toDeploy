@@ -19,24 +19,33 @@ namespace Services
         }
         public async Task<double> GetPriceServiceAsync()
         {
-            Console.WriteLine("Pidiendo precio del Producto");
-            using (HttpClient client = new HttpClient())
+            try
             {
-                string idPriceURL = _configuration.GetSection("BackingService").GetSection("PriceService").Value;
-                HttpResponseMessage response = await client.GetAsync(idPriceURL);
-                if (response.IsSuccessStatusCode)
+                Console.WriteLine("Pidiendo precio del Producto");
+                using (HttpClient client = new HttpClient())
                 {
-                    string idPriceBody = await response.Content.ReadAsStringAsync();
-                    PriceModel price = JsonConvert.DeserializeObject<PriceModel>(idPriceBody);
-                    Console.WriteLine($"Price given : ------------ { price.normal} " );
-                    return price.normal;
-                }
-                else
-                {
-                    throw new NumberServiceException("HUBO FALLAS al pedir precio del Producto");
+                    string idPriceURL = _configuration.GetSection("BackingService").GetSection("PriceService").Value;
+                    HttpResponseMessage response = await client.GetAsync(idPriceURL);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string idPriceBody = await response.Content.ReadAsStringAsync();
+                        PriceModel price = JsonConvert.DeserializeObject<PriceModel>(idPriceBody);
+                        Console.WriteLine($"Price given : ------------ { price.normal} ");
+                        return price.normal;
+                    }
+                    else
+                    {
+                        throw new PriceServiceException("HUBO FALLAS al pedir precio del Producto");
+                    }
                 }
             }
-            
+            catch (PriceServiceException ex)
+            {
+                string err = "HUBO FALLAS al pedir info del Precio";
+                Console.WriteLine(err);
+                Console.WriteLine(ex.Message + ex.StackTrace);
+                throw new PriceServiceException($"{err} : {ex.Message}");
+            }
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Services.Exceptions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace ProductsInventory.Middlewares
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class GroupTwoExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -38,9 +38,13 @@ namespace ProductsInventory.Middlewares
             if (ex is UnauthorizedAccessException)
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.Unauthorized;
-                exceptionWrapper.Message = "NO TIENES ACCESO";
+                exceptionWrapper.Message = "No tienes acceso";
             }
-
+            else if (ex.InnerException is PriceServiceException)
+            {
+                exceptionWrapper.Code = (int)HttpStatusCode.OK;
+                exceptionWrapper.Message = $"Hay errores de conexion con servicios externos. MORE DETAIL: {ex.Message} ";
+            }
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.Headers["Accept"] = "application/json";
             httpContext.Response.StatusCode = statusCode;
@@ -51,7 +55,6 @@ namespace ProductsInventory.Middlewares
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class GroupTwoExceptionMiddlewareExtensions
     {
         public static IApplicationBuilder UseGroupTwoExceptionMiddleware(this IApplicationBuilder builder)

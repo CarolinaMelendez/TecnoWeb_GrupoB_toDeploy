@@ -4,6 +4,7 @@ using DB;
 using Logic.Models;
 using Services;
 using DB.Models;
+using Logic.Exceptions;
 
 namespace Logic
 {
@@ -42,7 +43,6 @@ namespace Logic
         
         public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
-         
             DB.Models.Product productConverted = new DB.Models.Product()
             {
                 Name = product.Name,
@@ -53,7 +53,6 @@ namespace Logic
             };
             productConverted = _uow.ProductRepository.CreateProduct(productConverted);
             _uow.Save();
-
             return product;
         }
 
@@ -61,8 +60,10 @@ namespace Logic
         {
             string newNumberOfCode = "";
             int nextNumber = 0;
-            // implementar excepcion si el usuario inserta un tipo diferente de SOCCER OF BASKET
-            
+            if (typeProduct != "SOCCER" || typeProduct != "BASKET")
+            {
+                throw new InvalidTypeException($"El tipo de producto '{typeProduct}' no es valido");
+            }
             List<Logic.Models.Product> listOneType = GetProducts().FindAll(product => product.Type == typeProduct);
 
             if (listOneType.Count == 0)

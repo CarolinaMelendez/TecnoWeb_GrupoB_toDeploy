@@ -1,4 +1,5 @@
 ﻿using DB.Exceptions;
+using Logic.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -49,7 +50,12 @@ namespace ProductsInventory.Middlewares
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.OK;
                 exceptionWrapper.Message = $"Hay errores de conexion con Base de Datos. MORE DETAIL: {ex.Message} ";
-            }else
+            }else if (ex is InvalidTypeException)
+            {
+                exceptionWrapper.Code = (int)HttpStatusCode.OK;
+                exceptionWrapper.Message = $"Hay errores de Tipo de Producto. MORE DETAIL: {ex.Message} ";
+            }
+            else
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.InternalServerError;
                 exceptionWrapper.Message = "Ha sucedido un error inesperado : " + ex.Message;

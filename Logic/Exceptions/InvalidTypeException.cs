@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Logic.Exceptions
 {
-    class InvalidTypeException
+    public class InvalidTypeException : Exception
     {
-        public InvalidTypeException(String message)
-        {
-        }
+        public InvalidTypeException(String message) : base(message) { }
     }
 }

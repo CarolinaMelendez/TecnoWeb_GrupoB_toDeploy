@@ -54,6 +54,10 @@ namespace ProductsInventory.Middlewares
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.OK;
                 exceptionWrapper.Message = $"Hay errores de Tipo de Producto. MORE DETAIL: {ex.Message} ";
+            }else if(ex is InvalidStockException)
+            {
+                exceptionWrapper.Code = (int)HttpStatusCode.OK;
+                exceptionWrapper.Message = $"Hay errores de Stock. MORE DETAIL: {ex.Message} ";
             }
             else
             {

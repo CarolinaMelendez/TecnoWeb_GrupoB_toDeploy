@@ -43,16 +43,23 @@ namespace Logic
         
         public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
-            DB.Models.Product productConverted = new DB.Models.Product()
+            if (product.Stock >= 0)
             {
-                Name = product.Name,
-                Type = product.Type,
-                Code = getNewCode(product.Type),
-                Stock = product.Stock,
-                Id = new Guid()
-            };
-            productConverted = _uow.ProductRepository.CreateProduct(productConverted);
-            _uow.Save();
+                DB.Models.Product productConverted = new DB.Models.Product()
+                {
+                    Name = product.Name,
+                    Type = product.Type,
+                    Code = getNewCode(product.Type),
+                    Stock = product.Stock,
+                    Id = new Guid()
+                };
+                productConverted = _uow.ProductRepository.CreateProduct(productConverted);
+                _uow.Save();
+            }
+            else
+            {
+                throw new InvalidStockException($"El stock '{product.Stock}' no es valido");
+            }
             return product;
         }
 
@@ -102,8 +109,14 @@ namespace Logic
                 productFound.Code = getNewCode(product.Type);
             }
             productFound.Type = product.Type;
-            productFound.Stock = product.Stock;
-
+            if(product.Stock >= 0)
+            {
+                productFound.Stock = product.Stock;
+            }
+            else
+            {
+                throw new InvalidStockException($"El stock '{product.Stock}' no es valido");
+            }
             _uow.ProductRepository.UpdateProduct(productFound);
             _uow.Save();
 

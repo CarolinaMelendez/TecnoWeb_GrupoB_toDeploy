@@ -46,7 +46,7 @@ namespace ProductsInventory.Middlewares
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.OK;
                 exceptionWrapper.Message = $"Hay errores de conexion con servicios externos. MORE DETAIL: {ex.Message} ";
-            }else if (ex.InnerException is DatabaseException)
+            }else if (ex.InnerException is DatabaseException || ex is DatabaseException)
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.OK;
                 exceptionWrapper.Message = $"Hay errores de conexion con Base de Datos. MORE DETAIL: {ex.Message} ";

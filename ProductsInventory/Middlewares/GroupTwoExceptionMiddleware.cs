@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DB.Exceptions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Services.Exceptions;
@@ -44,7 +45,16 @@ namespace ProductsInventory.Middlewares
             {
                 exceptionWrapper.Code = (int)HttpStatusCode.OK;
                 exceptionWrapper.Message = $"Hay errores de conexion con servicios externos. MORE DETAIL: {ex.Message} ";
+            }else if (ex.InnerException is DatabaseException)
+            {
+                exceptionWrapper.Code = (int)HttpStatusCode.OK;
+                exceptionWrapper.Message = $"Hay errores de conexion con Base de Datos. MORE DETAIL: {ex.Message} ";
+            }else
+            {
+                exceptionWrapper.Code = (int)HttpStatusCode.InternalServerError;
+                exceptionWrapper.Message = "Ha sucedido un error inesperado : " + ex.Message;
             }
+            
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.Headers["Accept"] = "application/json";
             httpContext.Response.StatusCode = statusCode;

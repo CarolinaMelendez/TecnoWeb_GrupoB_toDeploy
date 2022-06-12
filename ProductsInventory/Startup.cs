@@ -34,18 +34,12 @@ namespace ProductsInventory
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .Enrich.FromLogContext()
-                .Enrich.WithMachineName()
-                .Enrich.WithEnvironmentName()
+                // no habia para enriquecer con detalle de exception
+                .Enrich.WithMachineName() // Enriquecer con el nombre de la maquina
+                .Enrich.WithEnvironmentName() // Tener el ambiente que se ha hecho
                 .CreateLogger();
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
-            Log.Information("Log confugiration was succesfully intialized");
+            Log.Information("Log configuration was succesfully intialized");
+            //Log.Error("Log ERROR 8");
         }
 
         public IConfiguration Configuration { get; }

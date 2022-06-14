@@ -5,6 +5,7 @@ using Logic.Models;
 using Services;
 using DB.Models;
 using Logic.Exceptions;
+using Serilog;
 
 namespace Logic
 {
@@ -27,7 +28,9 @@ namespace Logic
             };
         }
         
-        public List<Logic.Models.Product> GetProducts() { 
+        public List<Logic.Models.Product> GetProducts() {
+            Log.Information("Logic Layer: Se procesa la solicitud de GET Products");
+
             double newPriceGenerate;
             List <DB.Models.Product> products = _uow.ProductRepository.GetAllProducts().Result;
 
@@ -43,6 +46,8 @@ namespace Logic
         
         public Logic.Models.Product PostProduct(Logic.Models.Product product)
         {
+            Log.Information("Logic Layer: Se procesa la solicitud de POST Product");
+
             if (product.Stock >= 0)
             {
                 DB.Models.Product productConverted = new DB.Models.Product()
@@ -60,6 +65,8 @@ namespace Logic
             {
                 throw new InvalidStockException($"El stock '{product.Stock}' no es valido");
             }
+
+            Log.Information($"Nuevo producto ingresado: Id={product.Id},Name={product.Name} ,Type={product.Type} ,Code={product.Code}, Stock={product.Stock}");
             return product;
         }
 
@@ -101,6 +108,7 @@ namespace Logic
 
         public Logic.Models.Product PutProduct(Logic.Models.Product product)
         {
+            Log.Information($"Logic Layer: Se procesa la solicitud de PUT Product with ID={product.Id.ToString()}");
             DB.Models.Product productFound = _uow.ProductRepository.GetById(product.Id);
 
             productFound.Name = product.Name;
@@ -124,6 +132,7 @@ namespace Logic
         }
         public Logic.Models.Product DeleteProduct(Guid productId)
         {
+            Log.Information($"Logic Layer: Se procesa la solicitud de DELETE Product with ID={productId.ToString()}");
             DB.Models.Product productFound = _uow.ProductRepository.GetById(productId);
 
             _uow.ProductRepository.DeleteProduct(productFound);

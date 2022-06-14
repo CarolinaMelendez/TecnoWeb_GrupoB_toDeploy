@@ -10,14 +10,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "QA": {
+    "Dev-AG": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "QA"
-      }
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Dev-AG"
+        }
     }
   }
 }

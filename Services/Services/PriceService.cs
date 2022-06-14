@@ -6,6 +6,7 @@ using Services.Models;
 using System.Collections.Generic;
 using Services.Exceptions;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Services
 {
@@ -21,7 +22,7 @@ namespace Services
         {
             try
             {
-                Console.WriteLine("Pidiendo precio del Producto");
+                Log.Information($"Services Layer: Pidiendo precio del Producto");
                 using (HttpClient client = new HttpClient())
                 {
                     string idPriceURL = _configuration.GetSection("BackingService").GetSection("PriceService").Value;
@@ -30,7 +31,7 @@ namespace Services
                     {
                         string idPriceBody = await response.Content.ReadAsStringAsync();
                         PriceModel price = JsonConvert.DeserializeObject<PriceModel>(idPriceBody);
-                        Console.WriteLine($"Price given : ------------ { price.normal} ");
+                        Log.Information($"Services Layer: Precio obtenido --> {price.normal}");
                         return price.normal;
                     }
                     else
@@ -42,8 +43,8 @@ namespace Services
             catch (PriceServiceException ex)
             {
                 string err = "HUBO FALLAS al pedir info del Precio";
-                Console.WriteLine(err);
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                // Console.WriteLine(err);
+                // Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new PriceServiceException($"{err} : {ex.Message}");
             }
         }

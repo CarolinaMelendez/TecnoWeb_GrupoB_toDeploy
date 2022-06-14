@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 
 namespace Auth
@@ -16,7 +17,7 @@ namespace Auth
         }
         public Session ValidateCredentials(string userName, string password)
         {
-            //return _fbServices.validateUser(userName, password);
+            Log.Information("Authorization Layer: Se realiza busqueda de los credenciales");
             return _sessions.Find(session => session.UserName == userName && session.Password == password);
         }
     }

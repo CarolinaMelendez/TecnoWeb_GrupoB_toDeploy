@@ -38,8 +38,7 @@ namespace ProductsInventory
                 .Enrich.WithMachineName() // Enriquecer con el nombre de la maquina
                 .Enrich.WithEnvironmentName() // Tener el ambiente que se ha hecho
                 .CreateLogger();
-            Log.Information("Log configuration was succesfully intialized");
-            //Log.Error("Log ERROR 8");
+            Log.Information("Configuración de LOG fue existosamente inicializado");
         }
 
         public IConfiguration Configuration { get; }
@@ -101,6 +100,8 @@ namespace ProductsInventory
                     }
                 });
             });
+
+            Log.Information("Configuración de servicios fue existosamente finalizado");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,6 +137,8 @@ namespace ProductsInventory
             {
                 endpoints.MapControllers();
             });
+
+            Log.Information("Configuración básica fue existosamente finalizado");
         }
     }
 }

@@ -3,6 +3,7 @@ using Logic.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Serilog;
 using Services.Exceptions;
 using System;
 using System.Net;
@@ -69,7 +70,7 @@ namespace ProductsInventory.Middlewares
             httpContext.Response.Headers["Accept"] = "application/json";
             httpContext.Response.StatusCode = statusCode;
 
-            //Log.Error("Ha sucedido un error en la aplicacion" + ex.Message);
+            Log.Error("Ha sucedido un error en la aplicacion. " + exceptionWrapper.Message);
 
             return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(exceptionWrapper));
         }

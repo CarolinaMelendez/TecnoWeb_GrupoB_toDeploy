@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 namespace ProductsInventory.Middlewares
 {
@@ -39,6 +40,7 @@ namespace ProductsInventory.Middlewares
                 string password = httpContext.Request.Headers["password"];
                 if (_authorizationService.ValidateCredentials(userName, password) != null)
                 {
+                    Log.Information("Credenciales ingresados válidos. (userName,password)");
                     await _next(httpContext);
                 }
                 else

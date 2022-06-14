@@ -21,6 +21,7 @@ namespace DB
         {
             try
             {
+                Log.Information($"DB-Repository Layer: El trata de obtener el ID={id.ToString()}");
                 return _context.Set<Product>().Find(id);
             }
             catch (Exception ex)
@@ -30,12 +31,12 @@ namespace DB
                 // Console.WriteLine(ex.Message + ex.StackTrace); // debido al uso de log, no creo que so ya sea necesario. Pendiente hacer pruebas
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
-            Log.Information($"DB-Repository Layer: El ID={id.ToString()} fue obtenido satisfactoriamente");
         }
         public async Task<List<Product>> GetAllProducts()
         {
             try
             {
+                Log.Information($"DB-Repository Layer: Se trata de obtener los products ");
                 return await _context.Set<Product>().ToListAsync();
             }
             catch (Exception ex)
@@ -45,14 +46,16 @@ namespace DB
                 // Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
-            Log.Information($"DB-Repository Layer: Los products fueron obtenidos satisfactoriamente");
+           
         }
 
         public Product CreateProduct(Product product)
         {
             try
             {
+                Log.Information($"DB-Repository Layer: Se trata de almacenar un nuevo producto");
                 _context.Set<Product>().Add(product);
+              
                 return product;
             }
             catch (Exception ex)
@@ -62,7 +65,7 @@ namespace DB
                 // Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
-            Log.Information($"DB-Repository Layer: Un nuevo producto fue almacenado en dataset satisfactoriamente");
+            
         }
 
         public Product UpdateProduct(Product product)
@@ -70,6 +73,7 @@ namespace DB
             try
             {
                 _context.Entry(product).State = EntityState.Modified;
+                Log.Information($"DB-Repository Layer:Se trata de actualizar los datos del producto");
                 return product;
             }
             catch (Exception ex)
@@ -79,7 +83,6 @@ namespace DB
                 Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
-            Log.Information($"DB-Repository Layer:Los datos del producto fueron actualizados satisfactoriamente");
         }
 
         public Product DeleteProduct(Product product)
@@ -87,6 +90,7 @@ namespace DB
             try
             {
                 _context.Set<Product>().Remove(product);
+                Log.Information($"DB-Repository Layer: Se trata de eliminar un producto");
                 return product;
             }
             catch (Exception ex)
@@ -96,7 +100,6 @@ namespace DB
                 Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
-            Log.Information($"DB-Repository Layer: El producto fue eliminados del dataset satisfactoriamente");
         }
     }
 }

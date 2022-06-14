@@ -1,6 +1,7 @@
 ﻿using DB.Exceptions;
 using DB.Models;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,10 +26,11 @@ namespace DB
             catch (Exception ex)
             {
                 string err = "HUBO FALLAS al obtener el producto de la base de datos";
-                Console.WriteLine(err);
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                // Console.WriteLine(err);
+                // Console.WriteLine(ex.Message + ex.StackTrace); // debido al uso de log, no creo que so ya sea necesario. Pendiente hacer pruebas
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
+            Log.Information($"DB-Repository Layer: El ID={id.ToString()} fue obtenido satisfactoriamente");
         }
         public async Task<List<Product>> GetAllProducts()
         {
@@ -39,11 +41,11 @@ namespace DB
             catch (Exception ex)
             {
                 string err = "HUBO FALLAS al obtener los productos de la base de datos";
-                Console.WriteLine(err);
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                // Console.WriteLine(err);
+                // Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
-
+            Log.Information($"DB-Repository Layer: Los products fueron obtenidos satisfactoriamente");
         }
 
         public Product CreateProduct(Product product)
@@ -56,10 +58,11 @@ namespace DB
             catch (Exception ex)
             {
                 string err = "HUBO FALLAS al crear el producto en la base de datos";
-                Console.WriteLine(err);
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                // Console.WriteLine(err);
+                // Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
+            Log.Information($"DB-Repository Layer: Un nuevo producto fue almacenado en dataset satisfactoriamente");
         }
 
         public Product UpdateProduct(Product product)
@@ -76,6 +79,7 @@ namespace DB
                 Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
+            Log.Information($"DB-Repository Layer:Los datos del producto fueron actualizados satisfactoriamente");
         }
 
         public Product DeleteProduct(Product product)
@@ -92,6 +96,7 @@ namespace DB
                 Console.WriteLine(ex.Message + ex.StackTrace);
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
+            Log.Information($"DB-Repository Layer: El producto fue eliminados del dataset satisfactoriamente");
         }
     }
 }

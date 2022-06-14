@@ -1,4 +1,5 @@
 ﻿using DB.Exceptions;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -50,11 +51,12 @@ namespace DB
             catch (Exception ex)
             {
                 string err = "HUBO FALLAS al realizar las transacciones de base de datos";
-                Console.WriteLine(err);
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                // Console.WriteLine(err);
+                // Console.WriteLine(ex.Message + ex.StackTrace);
                 RollBackTransaction();
                 throw new DatabaseException($"{err} : {ex.Message}");
             }
+            Log.Information($"DB Layer: Nuevos cambios actualizados en dataset satisfactoriamente.");
         }
     }
 }
